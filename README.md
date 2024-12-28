@@ -1,5 +1,5 @@
 # Crosshair overlay
-Display a green overlay
+Display a green crosshair overlay
 
 # Requirements
 You will first need to:
