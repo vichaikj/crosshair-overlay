@@ -1,5 +1,5 @@
 # Crosshair overlay
-Green overlay that can be customize (only if you have python installed)
+Display a green overlay
 
 # Requirements
 You will first need to:
