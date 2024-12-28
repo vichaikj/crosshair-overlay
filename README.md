@@ -13,5 +13,5 @@ You will need Python installed on your machine
 
 
 # Building as an Executable
-pip install pyinstaller
-python -m PyInstaller --icon=/path/to/repo/crosshair.ico --onefile --noconsole /path/to/repo/crosshair.py
+    pip install pyinstaller
+    python -m PyInstaller --icon=/path/to/repo/crosshair.ico --onefile --noconsole /path/to/repo/crosshair.py
