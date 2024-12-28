@@ -7,6 +7,7 @@ You will first need to:
     - open crosshair.py and replace the .ico path with your path
 
 Then:
+
     python -m venv venv     (optional)
     venv\Scripts\activate   (optional)
     
