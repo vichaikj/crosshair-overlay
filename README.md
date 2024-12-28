@@ -2,8 +2,11 @@
 Green overlay that can be customize (only if you have python installed)
 
 # Requirements
-You will need Python installed on your machine
+You will first need to:
+    - have Python installed on your machine
+    - open crosshair.py and replace the .ico path with your path
 
+Then:
     python -m venv venv     (optional)
     venv\Scripts\activate   (optional)
     

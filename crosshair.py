@@ -8,6 +8,7 @@ from PyQt5.QtGui import QPainter, QColor, QPen, QIcon
 from PyQt5.QtCore import Qt
 
 
+# To replace with your path
 ICO_PATH = "C:/Users/JP/Documents/scripts/crosshair/crosshair.ico"
 
 
