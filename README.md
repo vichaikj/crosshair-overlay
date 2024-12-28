@@ -1,10 +1,17 @@
-Green crosshair
+# Crosshair overlay
+    Green overlay that can be customize (only if you have python installed)
+
+# Requirements
+    You will need Python installed on your machine
+
+        python -m venv venv     (optional)
+        venv\Scripts\activate   (optional)
+		
+        pip install -r requirements.txt
+		
+        python /path/to/repo/crosshair.py
 
 
-To convert that file into a .exe:
-
-  Dependency:
+# Building as an Executable
     pip install pyinstaller
-
-  File convertion:
-    python -m PyInstaller --icon=C:\Users\JP\Documents\scripts\crosshair\crosshair.ico --onefile --noconsole C:\Users\JP\Documents\scripts\crosshair\crosshair.py
+    python -m PyInstaller --icon=/path/to/repo/crosshair.ico --onefile --noconsole /path/to/repo/crosshair.py
