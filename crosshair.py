@@ -8,6 +8,9 @@ from PyQt5.QtGui import QPainter, QColor, QPen, QIcon
 from PyQt5.QtCore import Qt
 
 
+ICO_PATH = "C:/Users/JP/Documents/scripts/crosshair/crosshair.ico"
+
+
 class CrosshairOverlay(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -87,7 +90,7 @@ if __name__ == "__main__":
     overlay = CrosshairOverlay()
 
     # Set up the system tray icon
-    tray_icon = TrayIcon(QIcon("C:/Users/JP/Documents/scripts/crosshair/crosshair.ico"), overlay)
+    tray_icon = TrayIcon(QIcon(ICO_PATH), overlay)
     tray_icon.show()
 
     sys.exit(app.exec_())
