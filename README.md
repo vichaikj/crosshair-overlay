@@ -5,7 +5,7 @@ Display a green crosshair overlay
 You will first need to:
 * have Python installed on your machine
 * open crosshair.py and replace the .ico path with your path
-* change the width and length of your screen in the code if needed (default is 1440*2560)
+* change the width and length of your screen in the crosshair.py file if needed (default is 1440*2560)
 
 Then:
 
