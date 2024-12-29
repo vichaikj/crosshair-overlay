@@ -18,5 +18,7 @@ Then:
 
 
 # Building as an Executable
+If you want to convert it to a .exe file:
+
     pip install pyinstaller
     python -m PyInstaller --icon=/path/to/repo/crosshair.ico --onefile --noconsole /path/to/repo/crosshair.py
