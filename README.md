@@ -1,12 +1,22 @@
 # Crosshair overlay
 Display a green crosshair overlay
 
-# Requirements
-You will first need to:
-* have Python installed on your machine
-* open crosshair.py and:
-    * replace the .ico path with your path
-    * change the width and length of your screen if needed (default is 1440*2560)
+# If you just want the crosshair
+You can directly download the content of "executable", and launch "crosshair.exe"
+It will look like this:
+![image](https://github.com/user-attachments/assets/abae42b8-3f12-4e5d-8c6f-1b2ed96e448c)
+
+**Note**: crosshair.exe and crosshair.ico must be in the same folder
+
+
+# Requirements (if you have Python and want to customize the crosshair)
+Open crosshair.py and do the modification you want on the different values:
+
+    line_length = 12  # Dimensions of the "plus" sign (pixels in each direction from center)
+    hole_size = 6  # Size of the "hole" at the center (in pixels)
+    thickness = 3  # Line thickness
+    transparency = 0.8  # Transparency (percent)
+    outline_thickness = thickness + 2  # Outline is slightly thicker than the main crosshair
 
 Then:
 
@@ -19,7 +29,7 @@ Then:
 
 
 # Building as an Executable
-If you want to convert it to a .exe file:
+If you want to convert the python file into a .exe file:
 
     pip install pyinstaller
     python -m PyInstaller --icon=/path/to/repo/crosshair.ico --onefile --noconsole /path/to/repo/crosshair.py
