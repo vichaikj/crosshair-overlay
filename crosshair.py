@@ -2,24 +2,29 @@
 #     pip install pyinstaller
 #     python -m PyInstaller --icon=C:\Users\JP\Documents\scripts\crosshair\crosshair.ico --onefile --noconsole C:\Users\JP\Documents\scripts\crosshair\crosshair.py
 
+import os
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QMenu, QAction, QSystemTrayIcon
-from PyQt5.QtGui import QPainter, QColor, QPen, QIcon
+
 from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QPainter, QColor, QPen, QIcon
+from PyQt5.QtWidgets import QApplication, QMainWindow, QMenu, QAction, QSystemTrayIcon
 
 
-# To replace with your path
-ICO_PATH = "C:/Users/JP/Documents/scripts/crosshair/crosshair.ico"
+# Icone used for the tray
+ICO_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "crosshair.ico")
 
 
 class CrosshairOverlay(QMainWindow):
     def __init__(self):
         super().__init__()
 
+        # Dynamically get screen resolution
+        screen = QApplication.primaryScreen()
+        self.screen_width = screen.size().width()
+        self.screen_height = screen.size().height()
+
         # Window properties (1440x2560 resolution)
         self.setWindowTitle("Transparent Crosshair Overlay")
-        self.screen_width = 2560  # Width of the screen
-        self.screen_height = 1440  # Height of the screen
         self.setGeometry(0, 0, self.screen_width, self.screen_height)  # Full-screen overlay
         self.setAttribute(Qt.WA_TranslucentBackground)  # Enables transparency
         self.setAttribute(Qt.WA_TransparentForMouseEvents)  # Ignore mouse events
