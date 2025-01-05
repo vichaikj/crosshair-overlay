@@ -10,7 +10,7 @@ It will look like this: </p>
 
 
 # Requirements (if you have Python and want to customize the crosshair)
-Open crosshair.py and do the modification you want on the different values:
+Open crosshair.py and those values as you like:
 
     line_length = 12  # Dimensions of the "plus" sign (pixels in each direction from center)
     hole_size = 6  # Size of the "hole" at the center (in pixels)
