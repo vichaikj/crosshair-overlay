@@ -2,11 +2,9 @@
 Display a green crosshair overlay
 
 # If you just want the crosshair
-A **crosshair.exe** is available in the **build** file.
+A **crosshair.exe** file is available in the **build** folder.
 It will look like this: </p>
 ![image](https://github.com/user-attachments/assets/abae42b8-3f12-4e5d-8c6f-1b2ed96e448c)
-
-**Note**: **crosshair.exe** and **crosshair.ico** must be in the same folder
 
 
 # Requirements (if you have Python and want to customize the crosshair)
