@@ -2,21 +2,19 @@
 Display a green crosshair overlay
 
 # If you just want the crosshair
-You can directly download the content of the folder "**executable**", and launch "**crosshair.exe**"
+A **crosshair.exe** file is available in the **build** folder.
 It will look like this: </p>
 ![image](https://github.com/user-attachments/assets/abae42b8-3f12-4e5d-8c6f-1b2ed96e448c)
 
-**Note**: **crosshair.exe** and **crosshair.ico** must be in the same folder
 
+# If you already have python installed
+You can open the crosshair.py file and update this dict & value as you want.
 
-# Requirements (if you have Python and want to customize the crosshair)
-Open crosshair.py and those values as you like:
-
-    line_length = 12  # Dimensions of the "plus" sign (pixels in each direction from center)
-    hole_size = 6  # Size of the "hole" at the center (in pixels)
-    thickness = 3  # Line thickness
-    transparency = 0.8  # Transparency (percent)
-    outline_thickness = thickness + 2  # Outline is slightly thicker than the main crosshair
+    SELECTED_OPTION = 2
+    options = {
+        1: {"line_length": 12, "hole_size": 6, "thickness": 3, "transparency": 0.8},
+        2: {"line_length": 16, "hole_size": 8, "thickness": 4, "transparency": 0.8},
+    }
 
 Then:
 
