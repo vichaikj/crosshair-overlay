@@ -2,7 +2,7 @@
 Display a green crosshair overlay
 
 # If you just want the crosshair
-You can directly download the content of the folder "**executable**", and launch "**crosshair.exe**"
+A "**crosshair.exe**" is available in the "**executable**" file.
 It will look like this: </p>
 ![image](https://github.com/user-attachments/assets/abae42b8-3f12-4e5d-8c6f-1b2ed96e448c)
 
