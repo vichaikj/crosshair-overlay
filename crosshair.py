@@ -16,14 +16,14 @@ ICO_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "crosshair.i
 
 # add a small offset if the center of the crosshair is off
 OFFSET = False
-# Choose the option by updating the number below (1 or 2)
+# Choose the option (within the options dict) by updating the number below
 SELECTED_OPTION = 2
 
 
 # Define the options dictionary
 options = {
-    1: {"line_length": 12, "hole_size": 6, "thickness": 3},  # Option 1
-    2: {"line_length": 16, "hole_size": 8, "thickness": 4}   # Option 2
+    1: {"line_length": 12, "hole_size": 6, "thickness": 3, "transparency": 0.8},
+    2: {"line_length": 16, "hole_size": 8, "thickness": 4, "transparency": 0.8},
 }
 
 
@@ -31,6 +31,7 @@ options = {
 line_length = options[SELECTED_OPTION]["line_length"]
 hole_size = options[SELECTED_OPTION]["hole_size"]
 thickness = options[SELECTED_OPTION]["thickness"]
+transparency = options[SELECTED_OPTION]["transparency"]
 
 
 class CrosshairOverlay(QMainWindow):
@@ -53,7 +54,6 @@ class CrosshairOverlay(QMainWindow):
         self.show()
 
     def paintEvent(self, event):
-        transparency = 0.8  # Transparency (percent)
         outline_thickness = thickness + 2  # Outline is slightly thicker than the main crosshair
         painter = QPainter(self)
 
