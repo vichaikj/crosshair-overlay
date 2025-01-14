@@ -1,6 +1,7 @@
 # To convert that file into a .exe:
 #     pip install pyinstaller
-#     python -m PyInstaller --icon=C:\Users\JP\Documents\scripts\crosshair\crosshair.ico --onefile --noconsole C:\Users\JP\Documents\scripts\crosshair\crosshair.py
+#     python -m PyInstaller --icon=C:\Users\JP\Documents\scripts\crosshair\crosshair.ico --onefile --noconsole --add-data "C:\Users\JP\Documents\scripts\crosshair\crosshair.ico;." C:\Users\JP\Documents\scripts\crosshair\crosshair.py
+
 
 import os
 import sys
@@ -10,8 +11,26 @@ from PyQt5.QtGui import QPainter, QColor, QPen, QIcon
 from PyQt5.QtWidgets import QApplication, QMainWindow, QMenu, QAction, QSystemTrayIcon
 
 
-# Icone used for the tray
+# Icon used for the tray
 ICO_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "crosshair.ico")
+
+# add a small offset if the center of the crosshair is off
+OFFSET = False
+# Choose the option by updating the number below (1 or 2)
+SELECTED_OPTION = 2
+
+
+# Define the options dictionary
+options = {
+    1: {"line_length": 12, "hole_size": 6, "thickness": 3},  # Option 1
+    2: {"line_length": 16, "hole_size": 8, "thickness": 4}   # Option 2
+}
+
+
+# Extract the values based on the selected option
+line_length = options[SELECTED_OPTION]["line_length"]
+hole_size = options[SELECTED_OPTION]["hole_size"]
+thickness = options[SELECTED_OPTION]["thickness"]
 
 
 class CrosshairOverlay(QMainWindow):
@@ -23,7 +42,7 @@ class CrosshairOverlay(QMainWindow):
         self.screen_width = screen.size().width()
         self.screen_height = screen.size().height()
 
-        # Window properties (1440x2560 resolution)
+        # Window properties
         self.setWindowTitle("Transparent Crosshair Overlay")
         self.setGeometry(0, 0, self.screen_width, self.screen_height)  # Full-screen overlay
         self.setAttribute(Qt.WA_TranslucentBackground)  # Enables transparency
@@ -34,17 +53,14 @@ class CrosshairOverlay(QMainWindow):
         self.show()
 
     def paintEvent(self, event):
-        line_length = 12  # Dimensions of the "plus" sign (pixels in each direction from center)
-        hole_size = 6  # Size of the "hole" at the center (in pixels)
-        thickness = 3  # Line thickness
         transparency = 0.8  # Transparency (percent)
         outline_thickness = thickness + 2  # Outline is slightly thicker than the main crosshair
         painter = QPainter(self)
 
         # Calculate the center of the screen
-        offset = 1  # Re-adjustment because slightly off-centered in-game
-        center_x = (self.screen_width // 2) - offset
-        center_y = (self.screen_height // 2) - offset
+        offset_value = 1 if OFFSET else 0  # Re-adjustment because slightly off-centered in-game
+        center_x = (self.screen_width // 2) - offset_value
+        center_y = (self.screen_height // 2) - offset_value
 
         # Draw the dark green outline
         outline_pen = QPen(QColor(0, 100, 0, round(255 * transparency)))  # Dark green color
