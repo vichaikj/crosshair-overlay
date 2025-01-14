@@ -30,4 +30,4 @@ Then:
 If you want to convert the python file into a .exe file:
 
     pip install pyinstaller
-    python -m PyInstaller --icon=/path/to/repo/crosshair.ico --onefile --noconsole /path/to/repo/crosshair.py
+    python -m PyInstaller --icon=/path/to/repo/crosshair.ico --onefile --noconsole --add-data "/path/to/repo/crosshair.ico;." /path/to/repo/crosshair.py
