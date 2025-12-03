@@ -6,7 +6,7 @@
 import os
 import sys
 
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QSettings
 from PyQt5.QtGui import QPainter, QColor, QPen, QIcon
 from PyQt5.QtWidgets import QApplication, QMainWindow, QMenu, QAction, QSystemTrayIcon
 
@@ -155,12 +155,18 @@ class TrayIcon(QSystemTrayIcon):
 
     def switch_size(self, size_option):
         apply_size(size_option)
+        settings = QSettings("CrosshairOverlay", "Settings")
+        settings.setValue("size", size_option)
+
         for size in sizes.keys():
             getattr(self, f"{size}_action").setChecked(size == size_option)
         self.overlay.refresh()
 
     def switch_color(self, color_option):
         apply_color(color_option)
+        settings = QSettings("CrosshairOverlay", "Settings")
+        settings.setValue("color", color_option)
+
         for color in colors.keys():
             getattr(self, f"{color}_action").setChecked(color == color_option)
         self.overlay.refresh()
@@ -170,6 +176,14 @@ class TrayIcon(QSystemTrayIcon):
 
 
 if __name__ == "__main__":
+    settings = QSettings("CrosshairOverlay", "Settings")
+
+    CROSSHAIR_SIZE = settings.value("size", "medium")
+    CROSSHAIR_COLOR = settings.value("color", "green")
+
+    apply_size(CROSSHAIR_SIZE)
+    apply_color(CROSSHAIR_COLOR)
+
     app = QApplication(sys.argv)
 
     # Set up the crosshair overlay
