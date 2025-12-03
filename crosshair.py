@@ -19,12 +19,21 @@ OFFSET = False
 
 # Default option
 SELECTED_OPTION = "medium"
+CROSSHAIR_COLOR = "green"
 
-# Define the options dictionary
-options = {
+# Size definitions
+sizes = {
     "small": {"line_length": 8, "hole_size": 4, "thickness": 2, "transparency": 0.8},
     "medium": {"line_length": 12, "hole_size": 6, "thickness": 3, "transparency": 0.8},
     "large": {"line_length": 16, "hole_size": 8, "thickness": 4, "transparency": 0.8},
+}
+
+# Color definitions
+colors = {
+    "green": (0, 255, 0),
+    "red": (255, 0, 0),
+    "blue": (0, 150, 255),
+    "white": (255, 255, 255),
 }
 
 
@@ -32,14 +41,22 @@ def apply_option(option):
     """Update global drawing parameters"""
     global SELECTED_OPTION, line_length, hole_size, thickness, transparency
     SELECTED_OPTION = option
-    line_length = options[option]["line_length"]
-    hole_size = options[option]["hole_size"]
-    thickness = options[option]["thickness"]
-    transparency = options[option]["transparency"]
+    line_length = sizes[option]["line_length"]
+    hole_size = sizes[option]["hole_size"]
+    thickness = sizes[option]["thickness"]
+    transparency = sizes[option]["transparency"]
 
 
-# Apply initial option
+def apply_color(name):
+    """Update global color values"""
+    global CROSSHAIR_COLOR, color_r, color_g, color_b
+    CROSSHAIR_COLOR = name
+    color_r, color_g, color_b = colors[name]
+
+
+# Default apply
 apply_option(SELECTED_OPTION)
+apply_color(CROSSHAIR_COLOR)
 
 
 class CrosshairOverlay(QMainWindow):
@@ -74,8 +91,8 @@ class CrosshairOverlay(QMainWindow):
         center_x = (self.screen_width // 2) - offset_value
         center_y = (self.screen_height // 2) - offset_value
 
-        # Draw the dark green outline
-        outline_pen = QPen(QColor(0, 100, 0, round(255 * transparency)))  # Dark green color
+        # Draw the outline (darkened version of current color)
+        outline_pen = QPen(QColor(color_r // 4, color_g // 4, color_b // 4, round(255 * transparency)))
         outline_pen.setWidth(outline_thickness)
         painter.setPen(outline_pen)
 
@@ -88,7 +105,7 @@ class CrosshairOverlay(QMainWindow):
         painter.drawLine(center_x, center_y + hole_size, center_x, center_y + line_length)  # Bottom part
 
         # Draw the main crosshair
-        pen = QPen(QColor(0, 255, 0, round(255 * transparency)))  # Bright green color
+        pen = QPen(QColor(color_r, color_g, color_b, round(255 * transparency)))
         pen.setWidth(thickness)
         painter.setPen(pen)
 
@@ -110,26 +127,29 @@ class TrayIcon(QSystemTrayIcon):
         # Context menu
         menu = QMenu(parent)
 
-        # ---- OPTIONS SUBMENU ----
-        self.option_menu = QMenu("Crosshair size")
+        # ---- SIZE SUBMENU ----
+        self.size_menu = QMenu("Size")
+        for size in sizes.keys():
+            action = QAction(size.capitalize(), checkable=True)
+            action.setChecked(size == CROSSHAIR_COLOR)
+            action.triggered.connect(lambda _, n=size: self.switch_size(n))
+            self.size_menu.addAction(action)
 
-        self.small_action = QAction("Small", checkable=True)
-        self.medium_action = QAction("Medium", checkable=True)
-        self.large_action = QAction("Large", checkable=True)
+            setattr(self, f"{size}_action", action)
 
-        # Set selected option checked
-        self.small_action.setChecked(SELECTED_OPTION == "small")
-        self.medium_action.setChecked(SELECTED_OPTION == "medium")
-        self.large_action.setChecked(SELECTED_OPTION == "large")
+        menu.addMenu(self.size_menu)
 
-        self.small_action.triggered.connect(lambda: self.switch_option("small"))
-        self.medium_action.triggered.connect(lambda: self.switch_option("medium"))
-        self.large_action.triggered.connect(lambda: self.switch_option("large"))
+        # ---- COLOR SUBMENU ----
+        self.color_menu = QMenu("Color")
+        for color in colors.keys():
+            action = QAction(color.capitalize(), checkable=True)
+            action.setChecked(color == CROSSHAIR_COLOR)
+            action.triggered.connect(lambda _, n=color: self.switch_color(n))
+            self.color_menu.addAction(action)
 
-        self.option_menu.addAction(self.small_action)
-        self.option_menu.addAction(self.medium_action)
-        self.option_menu.addAction(self.large_action)
-        menu.addMenu(self.option_menu)
+            setattr(self, f"{color}_action", action)
+
+        menu.addMenu(self.color_menu)
 
         # ---- EXIT ----
         exit_action = QAction("Exit", self)
@@ -138,15 +158,18 @@ class TrayIcon(QSystemTrayIcon):
 
         self.setContextMenu(menu)
 
-    def switch_option(self, option):
-        apply_option(option)
+    def switch_size(self, size_option):
+        apply_option(size_option)
+        for size in sizes.keys():
+            getattr(self, f"{size}_action").setChecked(size == size_option)
 
-        # Make sure only one is checked
-        self.small_action.setChecked(option == "small")
-        self.medium_action.setChecked(option == "medium")
-        self.large_action.setChecked(option == "large")
+        self.overlay.refresh()
 
-        # Refresh overlay
+    def switch_color(self, color_option):
+        apply_color(color_option)
+        for color in colors.keys():
+            getattr(self, f"{color}_action").setChecked(color == color_option)
+
         self.overlay.refresh()
 
     def exit_app(self):
@@ -158,9 +181,7 @@ if __name__ == "__main__":
 
     # Set up the crosshair overlay
     overlay = CrosshairOverlay()
-
-    # Set up the system tray icon
-    tray_icon = TrayIcon(QIcon(ICO_PATH), overlay, parent=None)
+    tray_icon = TrayIcon(QIcon(ICO_PATH), overlay)
     tray_icon.show()
 
     sys.exit(app.exec_())
