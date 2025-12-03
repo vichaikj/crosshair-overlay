@@ -1,6 +1,6 @@
 # To convert that file into a .exe:
 #     pip install pyinstaller
-#     python -m PyInstaller --icon=C:\Users\JP\Documents\scripts\crosshair\crosshair.ico --onefile --noconsole --add-data "C:\Users\JP\Documents\scripts\crosshair\crosshair.ico;." C:\Users\JP\Documents\scripts\crosshair\crosshair.py
+#     python -m PyInstaller --icon=C:\Users\JP\Documents\GitHub\crosshair-overlay\crosshair.ico --onefile --noconsole --add-data "C:\Users\JP\Documents\GitHub\crosshair-overlay\crosshair.ico;." C:\Users\JP\Documents\GitHub\crosshair-overlay\crosshair.py
 
 
 import os
