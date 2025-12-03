@@ -5,7 +5,9 @@ Display a crosshair overlay with preset selectable sizes and colors
 A **crosshair.exe** file is available in the **build** folder.
 It will look like this: </p>
 ![image](https://github.com/user-attachments/assets/abae42b8-3f12-4e5d-8c6f-1b2ed96e448c)
+<p>
 <img width="221" height="84" alt="image" src="https://github.com/user-attachments/assets/eb9468ce-77c0-478f-92f3-46f338ee4eb0" />
+<p>
 <img width="201" height="95" alt="image" src="https://github.com/user-attachments/assets/bd9130bd-5db3-4ac2-ab00-22f71e00cb17" />
 
 
