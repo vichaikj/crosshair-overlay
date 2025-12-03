@@ -1,5 +1,5 @@
 # Crosshair overlay
-Display a green crosshair overlay
+Display a crosshair overlay with preset selectable sizes and colors
 
 # If you just want the crosshair
 A **crosshair.exe** file is available in the **build** folder.
