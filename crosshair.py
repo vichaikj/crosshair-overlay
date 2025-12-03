@@ -14,24 +14,32 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QMenu, QAction, QSystemTr
 # Icon used for the tray
 ICO_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "crosshair.ico")
 
-# add a small offset if the center of the crosshair is off
+# Add a small offset if the center of the crosshair is off
 OFFSET = False
-# Choose the option (within the options dict) by updating the number below
-SELECTED_OPTION = 2
 
+# Default option
+SELECTED_OPTION = "medium"
 
 # Define the options dictionary
 options = {
-    1: {"line_length": 12, "hole_size": 6, "thickness": 3, "transparency": 0.8},
-    2: {"line_length": 16, "hole_size": 8, "thickness": 4, "transparency": 0.8},
+    "small": {"line_length": 8, "hole_size": 4, "thickness": 2, "transparency": 0.8},
+    "medium": {"line_length": 12, "hole_size": 6, "thickness": 3, "transparency": 0.8},
+    "large": {"line_length": 16, "hole_size": 8, "thickness": 4, "transparency": 0.8},
 }
 
 
-# Extract the values based on the selected option
-line_length = options[SELECTED_OPTION]["line_length"]
-hole_size = options[SELECTED_OPTION]["hole_size"]
-thickness = options[SELECTED_OPTION]["thickness"]
-transparency = options[SELECTED_OPTION]["transparency"]
+def apply_option(option):
+    """Update global drawing parameters"""
+    global SELECTED_OPTION, line_length, hole_size, thickness, transparency
+    SELECTED_OPTION = option
+    line_length = options[option]["line_length"]
+    hole_size = options[option]["hole_size"]
+    thickness = options[option]["thickness"]
+    transparency = options[option]["transparency"]
+
+
+# Apply initial option
+apply_option(SELECTED_OPTION)
 
 
 class CrosshairOverlay(QMainWindow):
@@ -52,6 +60,10 @@ class CrosshairOverlay(QMainWindow):
 
         # Show the overlay
         self.show()
+
+    def refresh(self):
+        """Force a redraw when settings change"""
+        self.update()
 
     def paintEvent(self, event):
         outline_thickness = thickness + 2  # Outline is slightly thicker than the main crosshair
@@ -90,19 +102,55 @@ class CrosshairOverlay(QMainWindow):
 
 
 class TrayIcon(QSystemTrayIcon):
-    def __init__(self, icon, parent=None):
+    def __init__(self, icon, overlay, parent=None):
         super().__init__(icon, parent)
         self.setToolTip("Crosshair Overlay")
+        self.overlay = overlay
+
+        # Context menu
         menu = QMenu(parent)
 
-        exit_action = QAction("Exit", parent)
+        # ---- OPTIONS SUBMENU ----
+        self.option_menu = QMenu("Crosshair size")
+
+        self.small_action = QAction("Small", checkable=True)
+        self.medium_action = QAction("Medium", checkable=True)
+        self.large_action = QAction("Large", checkable=True)
+
+        # Set selected option checked
+        self.small_action.setChecked(SELECTED_OPTION == "small")
+        self.medium_action.setChecked(SELECTED_OPTION == "medium")
+        self.large_action.setChecked(SELECTED_OPTION == "large")
+
+        self.small_action.triggered.connect(lambda: self.switch_option("small"))
+        self.medium_action.triggered.connect(lambda: self.switch_option("medium"))
+        self.large_action.triggered.connect(lambda: self.switch_option("large"))
+
+        self.option_menu.addAction(self.small_action)
+        self.option_menu.addAction(self.medium_action)
+        self.option_menu.addAction(self.large_action)
+        menu.addMenu(self.option_menu)
+
+        # ---- EXIT ----
+        exit_action = QAction("Exit", self)
         exit_action.triggered.connect(self.exit_app)
         menu.addAction(exit_action)
 
         self.setContextMenu(menu)
 
+    def switch_option(self, option):
+        apply_option(option)
+
+        # Make sure only one is checked
+        self.small_action.setChecked(option == "small")
+        self.medium_action.setChecked(option == "medium")
+        self.large_action.setChecked(option == "large")
+
+        # Refresh overlay
+        self.overlay.refresh()
+
     def exit_app(self):
-        QApplication.quit()
+        QApplication().quit
 
 
 if __name__ == "__main__":
@@ -112,7 +160,7 @@ if __name__ == "__main__":
     overlay = CrosshairOverlay()
 
     # Set up the system tray icon
-    tray_icon = TrayIcon(QIcon(ICO_PATH), overlay)
+    tray_icon = TrayIcon(QIcon(ICO_PATH), overlay, parent=None)
     tray_icon.show()
 
     sys.exit(app.exec_())
