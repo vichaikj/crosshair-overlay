@@ -13,7 +13,7 @@ It will look like this: </p>
 
 
 
-# If you want to customize new crosshair options, you will need Python
+# Crosshair customization (Python needed)
 Then you can open `crosshair.py`.
 Additional options can be added in `sizes` and `colors` dicts.
 
@@ -35,10 +35,10 @@ Additional options can be added in `sizes` and `colors` dicts.
         "white": (255, 255, 255),
     }
 
-Then:
+Then, create your virtual env, install the requirements and execute the python script:
 
-    python -m venv venv     (optional)
-    venv\Scripts\activate   (optional)
+    python -m venv venv
+    venv\Scripts\activate
 
     pip install -r requirements.txt
 
