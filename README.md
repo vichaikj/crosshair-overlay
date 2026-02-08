@@ -14,8 +14,8 @@ It will look like this: </p>
 
 
 # Crosshair customization (Python needed)
-Then you can open `crosshair.py`.
-Additional options can be added in `sizes` and `colors` dicts.
+All the code lies in `crosshair.py`.
+Additional options (crosshair size / color) can be added in `sizes` and `colors` dicts.
 
     # Size definitions
     sizes = {
